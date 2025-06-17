@@ -9,15 +9,20 @@ exports.signup = async (req, res) => {
 
   try {
     const hashed = await bcrypt.hash(password, 10);
-    const user = await User.create({ 
-      email, 
-      phone, 
+    const user = await User.create({
+      email,
+      phone,
       password: hashed,
-      referralId: referralId || null 
+      referralId: referralId || null
     });
-
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "1d" });
-    res.status(201).json({ msg: "User created", token, userId: user.userId });
+    res.status(201).json({
+      msg: "User created",
+      token,
+      userId: user.userId,
+      email: user.email,
+      phone: user.phone
+    });
   } catch (err) {
     if (err.code === 11000) {
       const field = Object.keys(err.keyValue)[0];
@@ -32,9 +37,13 @@ exports.login = async (req, res) => {
   const user = await User.findOne({ email });
   if (!user || !(await bcrypt.compare(password, user.password)))
     return res.status(401).json({ msg: "Invalid credentials" });
-
   const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "1d" });
-  res.json({ token, userId: user.userId });
+  res.json({
+    token,
+    userId: user.userId,
+    email: user.email,
+    phone: user.phone
+  });
 };
 
 exports.forgotPassword = async (req, res) => {
