@@ -1,26 +1,43 @@
 const nodemailer = require('nodemailer');
 const config = require('../config/config');
 
-class EmailService {  constructor() {
+class EmailService {
+  constructor() {
     this.transporter = null;
     this.enabled = config.email.enabled;
     
     if (this.enabled) {
       try {
-        this.transporter = nodemailer.createTransport({
-          service: config.email.service,
+        // Enhanced configuration for Hostinger
+        const transportConfig = {
           host: config.email.host,
           port: config.email.port,
-          secure: config.email.secure,
+          secure: config.email.secure, // true for 465, false for other ports
           auth: config.email.auth,
-        });
+          connectionTimeout: config.email.connectionTimeout || 30000,
+          greetingTimeout: config.email.greetingTimeout || 30000,
+          socketTimeout: config.email.socketTimeout || 30000,
+          logger: false, // Set to true for debugging
+          debug: false, // Set to true for debugging
+        };        // Don't use 'service' for custom SMTP like Hostinger
+        if (config.email.service !== 'hostinger') {
+          transportConfig.service = config.email.service;
+        }
+
+        this.transporter = nodemailer.createTransport(transportConfig);
+        
+        console.log('✅ Email transporter created successfully');
+        console.log(`📧 SMTP Host: ${config.email.host}:${config.email.port}`);
+        console.log(`🔐 Secure: ${config.email.secure}`);
+        
       } catch (error) {
-        console.warn('Failed to create email transporter:', error.message);
+        console.warn('❌ Failed to create email transporter:', error.message);
         this.enabled = false;
       }
+    } else {
+      console.warn('⚠️ Email service not enabled - missing configuration');
     }
   }
-
   async sendEmail(options) {
     if (!this.enabled) {
       console.warn('Email service not configured, skipping email send');
@@ -28,6 +45,9 @@ class EmailService {  constructor() {
     }
 
     try {
+      // Test connection before sending
+      await this.testConnection();
+      
       const emailOptions = {
         from: options.from || config.email.from,
         to: options.to,
@@ -36,11 +56,28 @@ class EmailService {  constructor() {
         text: options.text
       };
 
+      console.log(`📧 Sending email to: ${emailOptions.to}`);
       const result = await this.transporter.sendMail(emailOptions);
+      console.log('✅ Email sent successfully:', result.messageId);
       return { success: true, messageId: result.messageId };
     } catch (error) {
-      console.error('Failed to send email:', error);
+      console.error('❌ Failed to send email:', error.message);
       return { success: false, message: error.message };
+    }
+  }
+
+  async testConnection() {
+    if (!this.enabled || !this.transporter) {
+      throw new Error('Email service not configured');
+    }
+
+    try {
+      await this.transporter.verify();
+      console.log('✅ SMTP connection verified');
+      return true;
+    } catch (error) {
+      console.error('❌ SMTP connection failed:', error.message);
+      throw error;
     }
   }
 

@@ -25,8 +25,8 @@ After deploying to Render, you'll need to set these environment variables in the
 - `GAME_MIN_BET_AMOUNT` - Minimum bet amount (default: 1)
 
 ### Email (Optional - for OTP/notifications)
-- `EMAIL_HOST` - SMTP host (e.g., smtp.gmail.com)
-- `EMAIL_PORT` - SMTP port (e.g., 587)
+- `EMAIL_HOST` - SMTP host (e.g., smtp.hostinger.com)
+- `EMAIL_PORT` - SMTP port (e.g., 465)
 - `EMAIL_USER` - SMTP username
 - `EMAIL_PASS` - SMTP password/app password
 - `EMAIL_FROM` - From email address

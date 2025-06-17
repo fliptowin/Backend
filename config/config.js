@@ -90,21 +90,23 @@ const config = {  // Application
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
     maxAge: 86400 // 24h
-  },
-  // Email
+  },  // Email
   email: {
     enabled: emailVarsPresent,
-    service: process.env.EMAIL_SERVICE || 'gmail',
-    host: process.env.EMAIL_HOST || 'smtp.gmail.com',
-    port: parseInt(process.env.EMAIL_PORT) || 587,
-    secure: process.env.EMAIL_SECURE === 'true',
+    service: process.env.EMAIL_SERVICE || 'hostinger',
+    host: process.env.EMAIL_HOST || 'smtp.hostinger.com',
+    port: parseInt(process.env.EMAIL_PORT) || 465,
+    secure: process.env.EMAIL_SECURE === 'true' || parseInt(process.env.EMAIL_PORT) === 465,
     auth: {
       user: process.env.EMAIL_USER || process.env.EMAIL,
       pass: process.env.EMAIL_PASS
     },
     from: process.env.EMAIL_FROM || process.env.EMAIL || 'FlipToWin Support <noreply@fliptowin.com>',
-    timeout: 10000,
-    maxRetries: 3
+    timeout: 30000,
+    maxRetries: 3,
+    connectionTimeout: 30000,
+    greetingTimeout: 30000,
+    socketTimeout: 30000
   },
 
   // Game Settings
