@@ -27,18 +27,16 @@ if (!emailVarsPresent) {
   console.warn('Warning: Email variables not configured. Email features will be disabled.');
 }
 
-const config = {
-  // Application
+const config = {  // Application
   app: {
     name: 'FlipToWin Backend',
     version: '1.0.0',
     env: process.env.NODE_ENV || 'development',
     host: process.env.HOST || '0.0.0.0',
-    port: parseInt(process.env.PORT) || 5000,
+    port: parseInt(process.env.PORT) || parseInt(process.env.RENDER_EXTERNAL_PORT) || 10000,
     isProduction: process.env.NODE_ENV === 'production',
     isDevelopment: process.env.NODE_ENV === 'development'
   },
-
   // Database
   database: {
     uri: process.env.MONGO_URI,
@@ -46,7 +44,7 @@ const config = {
       maxPoolSize: parseInt(process.env.MONGO_MAX_POOL_SIZE) || 10,
       minPoolSize: parseInt(process.env.MONGO_MIN_POOL_SIZE) || 5,
       connectTimeoutMS: parseInt(process.env.MONGO_CONNECT_TIMEOUT_MS) || 10000,
-      serverSelectionTimeoutMS: parseInt(process.env.MONGO_SERVER_SELECTION_TIMEOUT_MS) || 5000,
+      serverSelectionTimeoutMS: parseInt(process.env.MONGO_SERVER_SELECTION_TIMEOUT_MS) || 30000,
       socketTimeoutMS: 45000,
       bufferCommands: false,
       bufferMaxEntries: 0,

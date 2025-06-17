@@ -6,48 +6,103 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const compression = require('compression');
 const hpp = require('hpp');
+const fs = require('fs');
+const path = require('path');
 const config = require('./config/config');
 const logger = require('./config/logger');
 const security = require('./middleware/security');
 
+// Create required directories if they don't exist
+const createDirectories = () => {
+  const dirs = ['logs', 'public', 'public/uploads'];
+  dirs.forEach(dir => {
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir, { recursive: true });
+      console.log(`Created directory: ${dir}`);
+    }
+  });
+};
+
+// Create directories before anything else
+createDirectories();
+
 const app = express();
 
-// Trust proxy (important for production behind reverse proxy)
-app.set('trust proxy', 1);
-
-// Security middleware
-app.use(security.helmet);
-
-// Compression middleware
-app.use(compression());
-
-// CORS configuration
-app.use(cors({
-  origin: config.cors.origin,
-  credentials: config.cors.credentials,
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
-  maxAge: 86400 // 24 hours
-}));
-
-// Rate limiting
-app.use(security.apiRateLimiter);
-
-// Body parsing with size limits
-app.use(express.json({ 
-  limit: '10mb',
-  verify: (req, res, buf) => {
-    req.rawBody = buf;
+// Add uncaught exception handler
+process.on('uncaughtException', (error) => {
+  console.error('Uncaught Exception:', error);
+  try {
+    if (logger && typeof logger.error === 'function') {
+      logger.error('Uncaught Exception:', error);
+    }
+  } catch (e) {
+    console.error('Logger error:', e);
   }
-}));
-app.use(express.urlencoded({ 
-  extended: true, 
-  limit: '10mb' 
-}));
+  process.exit(1);
+});
 
-// Data sanitization
-app.use(security.mongoSanitize);
-app.use(hpp());
+process.on('unhandledRejection', (reason, promise) => {
+  console.error('Unhandled Rejection at:', promise, 'reason:', reason);
+  try {
+    if (logger && typeof logger.error === 'function') {
+      logger.error('Unhandled Rejection:', { reason, promise });
+    }
+  } catch (e) {
+    console.error('Logger error:', e);
+  }
+  process.exit(1);
+});
+
+try {
+  // Trust proxy (important for production behind reverse proxy)
+  app.set('trust proxy', 1);
+
+  // Security middleware
+  app.use(security.helmet);
+
+  // Compression middleware
+  app.use(compression());
+
+  // CORS configuration
+  app.use(cors({
+    origin: config.cors.origin,
+    credentials: config.cors.credentials,
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    maxAge: 86400 // 24 hours
+  }));
+
+  console.log('✅ Basic middleware configured successfully');
+} catch (error) {
+  console.error('❌ Error configuring basic middleware:', error);
+  process.exit(1);
+}
+
+try {
+  // Rate limiting
+  app.use(security.apiRateLimiter);
+
+  // Body parsing with size limits
+  app.use(express.json({ 
+    limit: '10mb',
+    verify: (req, res, buf) => {
+      req.rawBody = buf;
+    }
+  }));
+  app.use(express.urlencoded({ 
+    extended: true, 
+    limit: '10mb' 
+  }));
+
+  // Data sanitization
+  app.use(security.mongoSanitize);
+  app.use(hpp());
+
+  console.log('✅ Security and parsing middleware configured successfully');
+} catch (error) {
+  console.error('❌ Error configuring security middleware:', error);
+  process.exit(1);
+}
 
 // Request logging
 app.use((req, res, next) => {
@@ -69,21 +124,52 @@ app.use('/uploads', express.static('public/uploads', {
   }
 }));
 
-// API routes
-app.use('/api/auth', require('./routes/authRoutes'));
-app.use('/api/balance', require('./routes/balanceRoutes'));
-app.use('/api/play', require('./routes/playRoutes'));
-app.use('/api/withdraw', require('./routes/withdrawRoutes'));
-app.use('/api/deposit', require('./routes/depositRoutes'));
-app.use('/api/admin', require('./routes/adminRoutes'));
-app.use('/api/help', require('./routes/helpRoutes'));
+try {
+  // API routes
+  app.use('/api/auth', require('./routes/authRoutes'));
+  app.use('/api/balance', require('./routes/balanceRoutes'));
+  app.use('/api/play', require('./routes/playRoutes'));
+  app.use('/api/withdraw', require('./routes/withdrawRoutes'));
+  app.use('/api/deposit', require('./routes/depositRoutes'));
+  app.use('/api/admin', require('./routes/adminRoutes'));
+  app.use('/api/help', require('./routes/helpRoutes'));
 
-// Health check endpoint
+  console.log('✅ API routes configured successfully');
+} catch (error) {
+  console.error('❌ Error configuring routes:', error);
+  console.error('Route error details:', error.message);
+  process.exit(1);
+}
+
+// Health check endpoint (simple version)
 app.get('/health', (req, res) => {
-  res.json({
+  res.status(200).json({
     status: 'healthy',
     timestamp: new Date().toISOString(),
-    uptime: process.uptime()
+    uptime: process.uptime(),
+    memory: process.memoryUsage(),
+    environment: process.env.NODE_ENV || 'development'
+  });
+});
+
+// Simple root endpoint
+app.get('/', (req, res) => {
+  res.json({
+    message: 'FlipToWin Backend API',
+    version: '1.0.0',
+    status: 'running',
+    timestamp: new Date().toISOString(),
+    database: mongoose.connection.readyState === 1 ? 'connected' : 'disconnected'
+  });
+});
+
+// Simple test endpoint
+app.get('/test', (req, res) => {
+  res.json({
+    message: 'Test endpoint working',
+    environment: process.env.NODE_ENV,
+    port: process.env.PORT,
+    mongoUri: process.env.MONGO_URI ? 'configured' : 'missing'
   });
 });
 
@@ -123,17 +209,29 @@ app.use((error, req, res, next) => {
 
 // Graceful shutdown
 process.on('SIGTERM', () => {
-  logger.info('SIGTERM received, shutting down gracefully');
+  console.log('SIGTERM received, shutting down gracefully');
+  if (logger && typeof logger.info === 'function') {
+    logger.info('SIGTERM received, shutting down gracefully');
+  }
   mongoose.connection.close(() => {
-    logger.info('MongoDB connection closed');
+    console.log('MongoDB connection closed');
+    if (logger && typeof logger.info === 'function') {
+      logger.info('MongoDB connection closed');
+    }
     process.exit(0);
   });
 });
 
 process.on('SIGINT', () => {
-  logger.info('SIGINT received, shutting down gracefully');
+  console.log('SIGINT received, shutting down gracefully');
+  if (logger && typeof logger.info === 'function') {
+    logger.info('SIGINT received, shutting down gracefully');
+  }
   mongoose.connection.close(() => {
-    logger.info('MongoDB connection closed');
+    console.log('MongoDB connection closed');
+    if (logger && typeof logger.info === 'function') {
+      logger.info('MongoDB connection closed');
+    }
     process.exit(0);
   });
 });
@@ -141,32 +239,64 @@ process.on('SIGINT', () => {
 // Database connection with retry logic
 const connectDB = async () => {
   try {
+    // Remove deprecated options
     const conn = await mongoose.connect(config.database.uri, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
       maxPoolSize: 10,
-      serverSelectionTimeoutMS: 5000,
+      serverSelectionTimeoutMS: 30000,
       socketTimeoutMS: 45000,
-      family: 4
+      family: 4,
+      bufferCommands: false
     });
 
-    logger.info(`MongoDB Connected: ${conn.connection.host}`);    // Start server
-    const server = app.listen(config.app.port, () => {
+    logger.info(`MongoDB Connected: ${conn.connection.host}`);
+    
+    // Start server only after successful DB connection
+    const server = app.listen(config.app.port, '0.0.0.0', () => {
       logger.info(`Server running on port ${config.app.port} in ${config.app.env} mode`);
+      console.log(`✅ Server successfully started on port ${config.app.port}`);
     });
 
     // Handle server errors
     server.on('error', (error) => {
       logger.error('Server error:', error);
+      console.error('Server error:', error);
+      if (error.code === 'EADDRINUSE') {
+        console.error(`Port ${config.app.port} is already in use`);
+        process.exit(1);
+      }
     });
+
+    return server;
 
   } catch (error) {
     logger.error('Database connection failed:', error);
-    process.exit(1);
+    console.error('Database connection failed:', error);
+    
+    // Only retry a few times, then exit
+    if (!global.dbRetryCount) {
+      global.dbRetryCount = 0;
+    }
+    
+    if (global.dbRetryCount < 3) {
+      global.dbRetryCount++;
+      console.log(`Retrying database connection... (${global.dbRetryCount}/3)`);
+      setTimeout(() => {
+        connectDB();
+      }, 5000);
+    } else {
+      console.error('Max database connection retries reached. Exiting...');
+      process.exit(1);
+    }
   }
 };
 
 // Connect to database
+console.log('🚀 Starting FlipToWin Backend...');
+console.log(`Environment: ${process.env.NODE_ENV}`);
+console.log(`Port: ${config.app.port}`);
+console.log(`MongoDB URI: ${config.database.uri ? 'configured' : 'MISSING'}`);
+console.log(`JWT Secret: ${config.security.jwt.secret ? 'configured' : 'MISSING'}`);
+
 connectDB();
 
 module.exports = app;
