@@ -1,0 +1,68 @@
+{
+  "name": "fliptowinbackend",
+  "version": "1.0.0",
+  "main": "app.js",
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  },
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js",
+    "test": "jest --coverage",
+    "test:watch": "jest --watch",
+    "lint": "eslint . --ext .js",
+    "lint:fix": "eslint . --ext .js --fix",
+    "security:audit": "npm audit --audit-level moderate",
+    "security:check": "snyk test",
+    "build": "echo 'No build step required for Node.js app'",
+    "health": "node healthcheck.js"
+  },
+  "keywords": [
+    "gambling",
+    "coin-flip",
+    "betting",
+    "game"
+  ],
+  "author": "FlipToWin Team",
+  "license": "ISC",
+  "description": "Secure coin flip gambling backend API",
+  "dependencies": {
+    "bcryptjs": "^3.0.2",
+    "compression": "^1.8.0",
+    "connect-mongo": "^5.1.0",
+    "connect-redis": "^7.1.1",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "dotenv": "^16.5.0",
+    "express": "^4.18.2",
+    "express-mongo-sanitize": "^2.2.0",
+    "express-rate-limit": "^7.4.1",
+    "express-session": "^1.17.3",
+    "express-slow-down": "^2.0.3",
+    "express-useragent": "^1.0.15",
+    "express-validator": "^7.2.0",
+    "helmet": "^8.1.0",
+    "hpp": "^0.2.3",
+    "joi": "^17.13.3",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.13.2",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.5-lts.2",
+    "nodemailer": "^6.10.1",
+    "redis": "^4.7.0",
+    "short-unique-id": "^5.2.2",
+    "validator": "^13.15.15",
+    "winston": "^3.15.0",
+    "winston-daily-rotate-file": "^5.0.0",
+    "xss": "^1.0.15"
+  },
+  "devDependencies": {
+    "eslint": "^9.15.0",
+    "eslint-config-node": "^4.1.0",
+    "jest": "^29.7.0",
+    "nodemon": "^3.1.9",
+    "snyk": "^1.1293.1",
+    "supertest": "^7.0.0"
+  }
+}

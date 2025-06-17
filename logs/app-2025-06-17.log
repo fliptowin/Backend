@@ -1,0 +1,68 @@
+{"level":"info","message":"MongoDB Connected: ac-0mxgskg-shard-00-00.xrlsjrt.mongodb.net","timestamp":"2025-06-17 13:25:38:2538"}
+{"level":"info","message":"Server running on port undefined in undefined mode","timestamp":"2025-06-17 13:25:38:2538"}
+{"level":"info","message":"MongoDB Connected: ac-0mxgskg-shard-00-01.xrlsjrt.mongodb.net","timestamp":"2025-06-17 13:25:38:2538"}
+{"level":"info","message":"Server running on port undefined in undefined mode","timestamp":"2025-06-17 13:25:38:2538"}
+{"level":"info","message":"MongoDB Connected: ac-0mxgskg-shard-00-02.xrlsjrt.mongodb.net","timestamp":"2025-06-17 13:28:31:2831"}
+{"level":"info","message":"Server running on port undefined in undefined mode","timestamp":"2025-06-17 13:28:32:2832"}
+{"level":"info","message":"MongoDB Connected: ac-0mxgskg-shard-00-00.xrlsjrt.mongodb.net","timestamp":"2025-06-17 13:28:32:2832"}
+{"level":"info","message":"Server running on port undefined in undefined mode","timestamp":"2025-06-17 13:28:32:2832"}
+{"level":"info","message":"MongoDB Connected: ac-0mxgskg-shard-00-02.xrlsjrt.mongodb.net","timestamp":"2025-06-17 13:28:40:2840"}
+{"level":"info","message":"Server running on port 5000 in development mode","timestamp":"2025-06-17 13:28:40:2840"}
+{"level":"info","message":"MongoDB Connected: ac-0mxgskg-shard-00-02.xrlsjrt.mongodb.net","timestamp":"2025-06-17 13:28:40:2840"}
+{"address":"::","code":"EADDRINUSE","errno":-4091,"level":"error","message":"Server error: listen EADDRINUSE: address already in use :::5000","port":5000,"stack":"Error: listen EADDRINUSE: address already in use :::5000\n    at Server.setupListenHandle [as _listen2] (node:net:1904:16)\n    at listenInCluster (node:net:1961:12)\n    at Server.listen (node:net:2063:7)\n    at Function.listen (C:\\Users\\Administrator\\Desktop\\ftbtest1\\node_modules\\express\\lib\\application.js:635:24)\n    at connectDB (C:\\Users\\Administrator\\Desktop\\ftbtest1\\app.js:154:24)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)","syscall":"listen","timestamp":"2025-06-17 13:28:40:2840"}
+{"level":"info","message":"MongoDB Connected: ac-0mxgskg-shard-00-01.xrlsjrt.mongodb.net","timestamp":"2025-06-17 13:28:49:2849"}
+{"address":"::","code":"EADDRINUSE","errno":-4091,"level":"error","message":"Server error: listen EADDRINUSE: address already in use :::5000","port":5000,"stack":"Error: listen EADDRINUSE: address already in use :::5000\n    at Server.setupListenHandle [as _listen2] (node:net:1904:16)\n    at listenInCluster (node:net:1961:12)\n    at Server.listen (node:net:2063:7)\n    at Function.listen (C:\\Users\\Administrator\\Desktop\\ftbtest1\\node_modules\\express\\lib\\application.js:635:24)\n    at connectDB (C:\\Users\\Administrator\\Desktop\\ftbtest1\\app.js:154:24)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)","syscall":"listen","timestamp":"2025-06-17 13:28:49:2849"}
+{"level":"info","message":"MongoDB Connected: ac-0mxgskg-shard-00-02.xrlsjrt.mongodb.net","timestamp":"2025-06-17 13:29:06:296"}
+{"address":"::","code":"EADDRINUSE","errno":-4091,"level":"error","message":"Server error: listen EADDRINUSE: address already in use :::5000","port":5000,"stack":"Error: listen EADDRINUSE: address already in use :::5000\n    at Server.setupListenHandle [as _listen2] (node:net:1904:16)\n    at listenInCluster (node:net:1961:12)\n    at Server.listen (node:net:2063:7)\n    at Function.listen (C:\\Users\\Administrator\\Desktop\\ftbtest1\\node_modules\\express\\lib\\application.js:635:24)\n    at connectDB (C:\\Users\\Administrator\\Desktop\\ftbtest1\\app.js:154:24)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)","syscall":"listen","timestamp":"2025-06-17 13:29:06:296"}
+{"level":"info","message":"MongoDB Connected: ac-0mxgskg-shard-00-00.xrlsjrt.mongodb.net","timestamp":"2025-06-17 13:29:12:2912"}
+{"level":"info","message":"Server running on port 5000 in development mode","timestamp":"2025-06-17 13:29:12:2912"}
+{"level":"info","message":"MongoDB Connected: ac-0mxgskg-shard-00-00.xrlsjrt.mongodb.net","timestamp":"2025-06-17 13:30:03:303"}
+{"level":"info","message":"Server running on port 5000 in development mode","timestamp":"2025-06-17 13:30:03:303"}
+{"level":"info","message":"MongoDB Connected: ac-0mxgskg-shard-00-00.xrlsjrt.mongodb.net","timestamp":"2025-06-17 13:30:33:3033"}
+{"level":"info","message":"Server running on port 5000 in development mode","timestamp":"2025-06-17 13:30:33:3033"}
+{"level":"info","message":"MongoDB Connected: ac-0mxgskg-shard-00-01.xrlsjrt.mongodb.net","timestamp":"2025-06-17 13:30:44:3044"}
+{"level":"info","message":"Server running on port 5000 in development mode","timestamp":"2025-06-17 13:30:44:3044"}
+{"level":"info","message":"MongoDB Connected: ac-0mxgskg-shard-00-01.xrlsjrt.mongodb.net","timestamp":"2025-06-17 13:33:04:334"}
+{"level":"info","message":"Server running on port 5000 in development mode","timestamp":"2025-06-17 13:33:04:334"}
+{"level":"info","message":"MongoDB Connected: ac-0mxgskg-shard-00-01.xrlsjrt.mongodb.net","timestamp":"2025-06-17 13:36:59:3659"}
+{"level":"info","message":"Server running on port 5000 in development mode","timestamp":"2025-06-17 13:36:59:3659"}
+{"ip":"::1","level":"info","message":"Request","method":"POST","timestamp":"2025-06-17 13:40:15:4015","url":"/api/auth/signup","userAgent":"PostmanRuntime/7.44.0"}
+{"ip":"::1","level":"info","message":"Request","method":"POST","timestamp":"2025-06-17 13:41:28:4128","url":"/api/deposit/request","userAgent":"PostmanRuntime/7.44.0"}
+{"event":"LOGIN_ATTEMPT","ip":"::1","level":"info","message":"Login attempt","success":false,"timestamp":"2025-06-17 13:41:28:4128","userId":null}
+{"ip":"::1","level":"info","message":"Request","method":"POST","timestamp":"2025-06-17 13:41:40:4140","url":"/api/deposit/request","userAgent":"PostmanRuntime/7.44.0"}
+{"event":"LOGIN_ATTEMPT","ip":"::1","level":"info","message":"Login attempt","success":true,"timestamp":"2025-06-17 13:41:40:4140","userId":"L0KC4O"}
+{"ip":"::1","level":"info","message":"Request","method":"POST","timestamp":"2025-06-17 13:42:00:420","url":"/api/deposit/request","userAgent":"PostmanRuntime/7.44.0"}
+{"event":"LOGIN_ATTEMPT","ip":"::1","level":"info","message":"Login attempt","success":true,"timestamp":"2025-06-17 13:42:00:420","userId":"L0KC4O"}
+{"ip":"::1","level":"info","message":"Request","method":"POST","timestamp":"2025-06-17 13:43:52:4352","url":"/api/deposit/admin/process","userAgent":"PostmanRuntime/7.44.0"}
+{"ip":"::1","level":"info","message":"Request","method":"POST","timestamp":"2025-06-17 13:44:39:4439","url":"/api/play/flip","userAgent":"PostmanRuntime/7.44.0"}
+{"event":"LOGIN_ATTEMPT","ip":"::1","level":"info","message":"Login attempt","success":true,"timestamp":"2025-06-17 13:44:39:4439","userId":"L0KC4O"}
+{"amount":30,"balanceChange":-30,"duration":88,"level":"info","message":"Game played","newBalance":-30,"result":"lose","timestamp":"2025-06-17 13:44:39:4439","userId":"L0KC4O"}
+{"ip":"::1","level":"info","message":"Request","method":"POST","timestamp":"2025-06-17 13:45:09:459","url":"/api/play/flip","userAgent":"PostmanRuntime/7.44.0"}
+{"event":"LOGIN_ATTEMPT","ip":"::1","level":"info","message":"Login attempt","success":true,"timestamp":"2025-06-17 13:45:09:459","userId":"L0KC4O"}
+{"amount":30,"balanceChange":-30,"duration":71,"level":"info","message":"Game played","newBalance":-60,"result":"lose","timestamp":"2025-06-17 13:45:09:459","userId":"L0KC4O"}
+{"ip":"::1","level":"info","message":"Request","method":"POST","timestamp":"2025-06-17 13:45:12:4512","url":"/api/play/flip","userAgent":"PostmanRuntime/7.44.0"}
+{"event":"LOGIN_ATTEMPT","ip":"::1","level":"info","message":"Login attempt","success":true,"timestamp":"2025-06-17 13:45:12:4512","userId":"L0KC4O"}
+{"amount":30,"balanceChange":30,"duration":78,"level":"info","message":"Game played","newBalance":-30,"result":"win","timestamp":"2025-06-17 13:45:12:4512","userId":"L0KC4O"}
+{"ip":"::1","level":"info","message":"Request","method":"POST","timestamp":"2025-06-17 13:45:16:4516","url":"/api/play/flip","userAgent":"PostmanRuntime/7.44.0"}
+{"event":"LOGIN_ATTEMPT","ip":"::1","level":"info","message":"Login attempt","success":true,"timestamp":"2025-06-17 13:45:16:4516","userId":"L0KC4O"}
+{"amount":30,"balanceChange":-30,"duration":75,"level":"info","message":"Game played","newBalance":-60,"result":"lose","timestamp":"2025-06-17 13:45:16:4516","userId":"L0KC4O"}
+{"ip":"::1","level":"info","message":"Request","method":"POST","timestamp":"2025-06-17 13:45:57:4557","url":"/api/withdraw/request","userAgent":"PostmanRuntime/7.44.0"}
+{"event":"LOGIN_ATTEMPT","ip":"::1","level":"info","message":"Login attempt","success":false,"timestamp":"2025-06-17 13:45:57:4557","userId":null}
+{"ip":"::1","level":"info","message":"Request","method":"POST","timestamp":"2025-06-17 13:46:04:464","url":"/api/withdraw/request","userAgent":"PostmanRuntime/7.44.0"}
+{"event":"LOGIN_ATTEMPT","ip":"::1","level":"info","message":"Login attempt","success":true,"timestamp":"2025-06-17 13:46:04:464","userId":"L0KC4O"}
+{"ip":"::1","level":"info","message":"Request","method":"GET","timestamp":"2025-06-17 13:46:32:4632","url":"/api/deposit/history/L0KC4O","userAgent":"PostmanRuntime/7.44.0"}
+{"event":"LOGIN_ATTEMPT","ip":"::1","level":"info","message":"Login attempt","success":true,"timestamp":"2025-06-17 13:46:32:4632","userId":"L0KC4O"}
+{"ip":"::1","level":"info","message":"Request","method":"POST","timestamp":"2025-06-17 13:46:57:4657","url":"/api/help/submit","userAgent":"PostmanRuntime/7.44.0"}
+{"event":"LOGIN_ATTEMPT","ip":"::1","level":"info","message":"Login attempt","success":false,"timestamp":"2025-06-17 13:46:57:4657","userId":null}
+{"ip":"::1","level":"info","message":"Request","method":"POST","timestamp":"2025-06-17 13:47:13:4713","url":"/api/help/submit","userAgent":"PostmanRuntime/7.44.0"}
+{"event":"LOGIN_ATTEMPT","ip":"::1","level":"info","message":"Login attempt","success":true,"timestamp":"2025-06-17 13:47:13:4713","userId":"L0KC4O"}
+{"ip":"::1","level":"info","message":"Request","method":"POST","timestamp":"2025-06-17 13:47:48:4748","url":"/api/admin/users","userAgent":"PostmanRuntime/7.44.0"}
+{"ip":"::1","level":"info","message":"Request","method":"POST","timestamp":"2025-06-17 13:47:55:4755","url":"/api/admin/stats","userAgent":"PostmanRuntime/7.44.0"}
+{"ip":"::1","level":"info","message":"Request","method":"POST","timestamp":"2025-06-17 13:48:02:482","url":"/api/withdraw/admin/user-withdrawals/?status=rejected","userAgent":"PostmanRuntime/7.44.0"}
+{"ip":"::1","level":"info","message":"Request","method":"POST","timestamp":"2025-06-17 13:48:09:489","url":"/api/deposit/admin/user-deposits/?status=submitted","userAgent":"PostmanRuntime/7.44.0"}
+{"ip":"::1","level":"info","message":"Request","method":"POST","timestamp":"2025-06-17 13:48:18:4818","url":"/api/deposit/admin/process","userAgent":"PostmanRuntime/7.44.0"}
+{"ip":"::1","level":"info","message":"Request","method":"POST","timestamp":"2025-06-17 13:48:30:4830","url":"/api/withdraw/admin/list/?status=submitted","userAgent":"PostmanRuntime/7.44.0"}
+{"ip":"::1","level":"info","message":"Request","method":"POST","timestamp":"2025-06-17 13:48:36:4836","url":"/api/deposit/admin/list?status=submitted","userAgent":"PostmanRuntime/7.44.0"}
+{"level":"info","message":"MongoDB Connected: ac-0mxgskg-shard-00-01.xrlsjrt.mongodb.net","timestamp":"2025-06-17 14:51:20:5120"}
+{"level":"info","message":"Server running on port 5000 in development mode","timestamp":"2025-06-17 14:51:20:5120"}
+{"level":"info","message":"SIGINT received, shutting down gracefully","timestamp":"2025-06-17 14:58:43:5843"}
