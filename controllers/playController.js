@@ -70,17 +70,31 @@ exports.play = async (req, res) => {
         coinFlip = face; // They guessed right but still lose (house always wins sometimes)
       }
     }
-    
-    // Determine if user's face choice matches final coin flip
-    const faceMatch = (coinFlip === face);    // Update balances efficiently
-    const balanceChange = userWon ? amount : -amount;
-    user.currentBalance += balanceChange;
+      // Determine if user's face choice matches final coin flip
+    const faceMatch = (coinFlip === face);
 
-    // Ensure balance doesn't go negative
-    if ((user.currentBalance + user.walletBalance) < 0) {
+    // Update balances based on game result
+    if (userWon) {
+      // Win: Add winnings to current balance
+      const winnings = amount;
+      user.currentBalance += winnings;
+    } else {
+      // Lose: Deduct from wallet balance directly, keep current balance unchanged
+      user.walletBalance -= amount;
+      
+      // Ensure wallet balance doesn't go negative
+      if (user.walletBalance < 0) {
+        return res.status(400).json({ 
+          success: false,
+          msg: 'Insufficient wallet balance for this bet' 
+        });
+      }
+    }    // Double-check total balance consistency
+    const finalTotalBalance = user.currentBalance + user.walletBalance;
+    if (finalTotalBalance < 0) {
       return res.status(400).json({ 
         success: false,
-        msg: 'Bet amount would exceed total balance' 
+        msg: 'Balance calculation error' 
       });
     }
 
@@ -98,16 +112,16 @@ exports.play = async (req, res) => {
     gameState.addResult(userId, actualGameResult);
     
     // Save user data
-    await user.save();
-
-    // Log game event for monitoring
+    await user.save();    // Log game event for monitoring
     if (logger) {
       logger.info('Game played', {
         userId,
         result: actualGameResult,
         amount,
-        balanceChange,
-        newBalance: user.currentBalance,
+        balanceChangeType: userWon ? 'currentBalance' : 'walletBalance',
+        balanceChange: userWon ? amount : -amount,
+        newCurrentBalance: user.currentBalance,
+        newWalletBalance: user.walletBalance,
         duration: Date.now() - startTime
       });
     }

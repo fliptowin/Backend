@@ -1,0 +1,24 @@
+{"level":"info","message":"MongoDB Connected: ac-0mxgskg-shard-00-02.xrlsjrt.mongodb.net","timestamp":"2025-06-22 19:42:48:4248"}
+{"level":"info","message":"Server running on port 10000 in production mode","timestamp":"2025-06-22 19:42:48:4248"}
+{"ip":"127.0.0.1","level":"info","message":"Request","method":"POST","timestamp":"2025-06-22 19:43:53:4353","url":"/api/auth/login","userAgent":"PostmanRuntime/7.44.1"}
+{"ip":"127.0.0.1","level":"info","message":"Request","method":"POST","timestamp":"2025-06-22 19:44:29:4429","url":"/api/play/flip","userAgent":"PostmanRuntime/7.44.1"}
+{"event":"LOGIN_ATTEMPT","ip":"127.0.0.1","level":"info","message":"Login attempt","success":true,"timestamp":"2025-06-22 19:44:29:4429","userId":"G3ECAS"}
+{"amount":30,"balanceChange":30,"balanceChangeType":"currentBalance","duration":227,"level":"info","message":"Game played","newCurrentBalance":30,"newWalletBalance":2929,"result":"win","timestamp":"2025-06-22 19:44:29:4429","userId":"G3ECAS"}
+{"ip":"127.0.0.1","level":"info","message":"Request","method":"POST","timestamp":"2025-06-22 19:44:37:4437","url":"/api/play/flip","userAgent":"PostmanRuntime/7.44.1"}
+{"event":"LOGIN_ATTEMPT","ip":"127.0.0.1","level":"info","message":"Login attempt","success":true,"timestamp":"2025-06-22 19:44:37:4437","userId":"G3ECAS"}
+{"amount":30,"balanceChange":30,"balanceChangeType":"currentBalance","duration":66,"level":"info","message":"Game played","newCurrentBalance":60,"newWalletBalance":2929,"result":"win","timestamp":"2025-06-22 19:44:37:4437","userId":"G3ECAS"}
+{"ip":"127.0.0.1","level":"info","message":"Request","method":"POST","timestamp":"2025-06-22 19:44:41:4441","url":"/api/play/flip","userAgent":"PostmanRuntime/7.44.1"}
+{"event":"LOGIN_ATTEMPT","ip":"127.0.0.1","level":"info","message":"Login attempt","success":true,"timestamp":"2025-06-22 19:44:41:4441","userId":"G3ECAS"}
+{"amount":30,"balanceChange":-30,"balanceChangeType":"walletBalance","duration":67,"level":"info","message":"Game played","newCurrentBalance":60,"newWalletBalance":2899,"result":"lose","timestamp":"2025-06-22 19:44:41:4441","userId":"G3ECAS"}
+{"ip":"127.0.0.1","level":"info","message":"Request","method":"POST","timestamp":"2025-06-22 19:44:46:4446","url":"/api/play/flip","userAgent":"PostmanRuntime/7.44.1"}
+{"event":"LOGIN_ATTEMPT","ip":"127.0.0.1","level":"info","message":"Login attempt","success":true,"timestamp":"2025-06-22 19:44:46:4446","userId":"G3ECAS"}
+{"amount":30,"balanceChange":-30,"balanceChangeType":"walletBalance","duration":73,"level":"info","message":"Game played","newCurrentBalance":60,"newWalletBalance":2869,"result":"lose","timestamp":"2025-06-22 19:44:46:4446","userId":"G3ECAS"}
+{"ip":"127.0.0.1","level":"info","message":"Request","method":"POST","timestamp":"2025-06-22 19:44:50:4450","url":"/api/play/flip","userAgent":"PostmanRuntime/7.44.1"}
+{"event":"LOGIN_ATTEMPT","ip":"127.0.0.1","level":"info","message":"Login attempt","success":true,"timestamp":"2025-06-22 19:44:50:4450","userId":"G3ECAS"}
+{"amount":30,"balanceChange":-30,"balanceChangeType":"walletBalance","duration":70,"level":"info","message":"Game played","newCurrentBalance":60,"newWalletBalance":2839,"result":"lose","timestamp":"2025-06-22 19:44:50:4450","userId":"G3ECAS"}
+{"ip":"127.0.0.1","level":"info","message":"Request","method":"POST","timestamp":"2025-06-22 19:44:54:4454","url":"/api/play/flip","userAgent":"PostmanRuntime/7.44.1"}
+{"event":"LOGIN_ATTEMPT","ip":"127.0.0.1","level":"info","message":"Login attempt","success":true,"timestamp":"2025-06-22 19:44:54:4454","userId":"G3ECAS"}
+{"amount":30,"balanceChange":30,"balanceChangeType":"currentBalance","duration":70,"level":"info","message":"Game played","newCurrentBalance":90,"newWalletBalance":2839,"result":"win","timestamp":"2025-06-22 19:44:54:4454","userId":"G3ECAS"}
+{"ip":"127.0.0.1","level":"info","message":"Request","method":"POST","timestamp":"2025-06-22 19:44:59:4459","url":"/api/play/flip","userAgent":"PostmanRuntime/7.44.1"}
+{"event":"LOGIN_ATTEMPT","ip":"127.0.0.1","level":"info","message":"Login attempt","success":true,"timestamp":"2025-06-22 19:44:59:4459","userId":"G3ECAS"}
+{"amount":30,"balanceChange":-30,"balanceChangeType":"walletBalance","duration":71,"level":"info","message":"Game played","newCurrentBalance":90,"newWalletBalance":2809,"result":"lose","timestamp":"2025-06-22 19:44:59:4459","userId":"G3ECAS"}

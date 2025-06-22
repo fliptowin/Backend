@@ -102,3 +102,6 @@
 {"level":"info","message":"Server running on port 10000 in production mode","timestamp":"2025-06-17 17:05:24:524"}
 {"ip":"127.0.0.1","level":"info","message":"Request","method":"POST","timestamp":"2025-06-17 17:05:31:531","url":"/api/deposit/request","userAgent":"PostmanRuntime/7.44.0"}
 {"event":"LOGIN_ATTEMPT","ip":"127.0.0.1","level":"info","message":"Login attempt","success":true,"timestamp":"2025-06-17 17:05:31:531","userId":"G3ECAS"}
+{"level":"info","message":"MongoDB Connected: ac-0mxgskg-shard-00-01.xrlsjrt.mongodb.net","timestamp":"2025-06-17 23:36:51:3651"}
+{"level":"info","message":"Server running on port 10000 in production mode","timestamp":"2025-06-17 23:36:51:3651"}
+{"ip":"127.0.0.1","level":"info","message":"Request","method":"POST","timestamp":"2025-06-17 23:37:53:3753","url":"/api/auth/signup","userAgent":"PostmanRuntime/7.44.1"}
