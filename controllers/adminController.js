@@ -16,7 +16,7 @@ exports.getAllUsers = async (req, res) => {
     }
 
     // Build filter object
-    const filter = {};
+    const filter = { isActive: { $ne: false } };
     if (email) filter.email = { $regex: email, $options: 'i' }; // Case-insensitive search
     if (phone) filter.phone = { $regex: phone, $options: 'i' };
     if (userId) filter.userId = userId;
@@ -204,6 +204,34 @@ exports.changeUserPassword = async (req, res) => {
       userId: user.userId,
       email: user.email
     });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ msg: 'Server error' });
+  }
+};
+
+/**
+ * Deactivate a user (admin only)
+ */
+exports.deactivateUser = async (req, res) => {
+  try {
+    const { accessKey, userId } = req.body;
+    if (accessKey !== process.env.ADMIN_SECRET) {
+      return res.status(410).json({ msg: 'Invalid access key' });
+    }
+    if (!userId) {
+      return res.status(400).json({ msg: 'User ID is required' });
+    }
+    const user = await User.findOne({ userId });
+    if (!user) {
+      return res.status(404).json({ msg: 'User not found' });
+    }
+    if (user.isActive === false) {
+      return res.status(400).json({ msg: 'User is already deactivated' });
+    }
+    user.isActive = false;
+    await user.save();
+    res.json({ msg: 'User deactivated successfully', userId: user.userId });
   } catch (err) {
     console.log(err);
     res.status(500).json({ msg: 'Server error' });

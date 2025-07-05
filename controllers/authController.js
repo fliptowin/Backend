@@ -35,10 +35,14 @@ exports.signup = async (req, res) => {
 exports.login = async (req, res) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email });
-  if (!user || !(await bcrypt.compare(password, user.password)))
+  if (!user || !(await bcrypt.compare(password, user.password))) {
     return res.status(401).json({ msg: "Invalid credentials" });
+  }
+  if (user.isActive === false) {
+    return res.status(403).json({ msg: "Account is deactivated. Please contact support." });
+  }
   const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "1d" });
-  res.json({
+  return res.json({
     token,
     userId: user.userId,
     email: user.email,
