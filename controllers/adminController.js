@@ -38,19 +38,30 @@ exports.getAllUsers = async (req, res) => {
     
     // Get users with selected fields (exclude password and sensitive info)
     const users = await User.find(filter)
-      .select('userId email phone walletBalance currentBalance createdAt')
+      .select('userId email phone walletBalance currentBalance createdAt referralId')
       .sort(sortOption);
     
+    // Format users to ensure referralId is always present
+    const formattedUsers = users.map(user => ({
+      userId: user.userId,
+      email: user.email,
+      phone: user.phone,
+      walletBalance: user.walletBalance,
+      currentBalance: user.currentBalance,
+      createdAt: user.createdAt,
+      referralId: user.referralId || ""
+    }));
+    
     // Calculate total users and total balance
-    const totalUsers = users.length;
-    const totalBalance = users.reduce((acc, user) => {
+    const totalUsers = formattedUsers.length;
+    const totalBalance = formattedUsers.reduce((acc, user) => {
       return acc + user.walletBalance + user.currentBalance;
     }, 0);
 
     res.json({
       totalUsers,
       totalBalance,
-      users
+      users: formattedUsers
     });
   } catch (err) {
     console.log(err);
