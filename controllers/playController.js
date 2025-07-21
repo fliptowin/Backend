@@ -81,6 +81,7 @@ exports.play = async (req, res) => {
     } else {
       // Lose: Deduct from wallet balance directly, keep current balance unchanged
       user.walletBalance -= amount;
+      user.currentBalance = 0;
       
       // Ensure wallet balance doesn't go negative
       if (user.walletBalance < 0) {
