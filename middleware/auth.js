@@ -45,7 +45,21 @@ const auth = async (req, res, next) => {
       });
     }
 
-    // Check if user account is active (if you have user status)
+    // Check if user account is deactivated
+    if (user.isActive === false) {
+      logger.security.suspiciousActivity(
+        user.userId,
+        'DEACTIVATED_USER_ACCESS_ATTEMPT',
+        req.ip,
+        { url: req.originalUrl }
+      );
+      return res.status(403).json({ 
+        msg: 'Your account has been deactivated. Please contact support.',
+        code: 'ACCOUNT_DEACTIVATED'
+      });
+    }
+
+    // Check if user account is inactive (legacy status check)
     if (user.status && user.status === 'inactive') {
       return res.status(401).json({ 
         msg: 'Account is inactive',
@@ -115,7 +129,7 @@ const optionalAuth = async (req, res, next) => {
 
       const user = await User.findById(decoded.id).select('-password');
       
-      if (user) {
+      if (user && user.isActive !== false) {
         req.userId = decoded.id;
         req.user = user;
       }

@@ -76,3 +76,39 @@ exports.verifyOTP = async (req, res) => {
   await user.save();
   res.json({ msg: "Password updated" });
 };
+
+exports.checkUserStatus = async (req, res) => {
+  try {
+    const user = await User.findById(req.userId).select('userId email phone isActive createdAt');
+    
+    if (!user) {
+      return res.status(404).json({ msg: "User not found" });
+    }
+
+    if (user.isActive === false) {
+      return res.status(403).json({ 
+        msg: "Your account has been deactivated. Please contact support.",
+        code: "ACCOUNT_DEACTIVATED",
+        user: {
+          userId: user.userId,
+          email: user.email,
+          isActive: user.isActive
+        }
+      });
+    }
+
+    res.json({
+      msg: "Account is active",
+      user: {
+        userId: user.userId,
+        email: user.email,
+        phone: user.phone,
+        isActive: user.isActive,
+        createdAt: user.createdAt
+      }
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ msg: "Internal server error" });
+  }
+};

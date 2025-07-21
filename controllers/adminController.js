@@ -115,8 +115,8 @@ exports.getSystemStats = async (req, res) => {
       return res.status(410).json({ msg: 'Invalid access key' });
     }
 
-    // Get counts
-    const totalUsers = await User.countDocuments({});
+    // Get counts (exclude deactivated users)
+    const totalUsers = await User.countDocuments({ isActive: { $ne: false } });
     const pendingDeposits = await TransactionRequest.countDocuments({ 
       type: 'deposit',
       status: 'submitted'
