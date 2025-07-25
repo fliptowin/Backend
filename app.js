@@ -64,13 +64,14 @@ try {
   app.use(compression());
 
   // CORS configuration
-  app.use(cors({
-    origin: config.cors.origin,
-    credentials: config.cors.credentials,
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
-    maxAge: 86400 // 24 hours
-  }));
+  // app.use(cors({
+  //   origin: config.cors.origin,
+  //   credentials: config.cors.credentials,
+  //   methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  //   allowedHeaders: ['Content-Type', 'Authorization'],
+  //   maxAge: 86400 // 24 hours
+  // }));
+  app.use(cors());
 
   console.log('✅ Basic middleware configured successfully');
 } catch (error) {
