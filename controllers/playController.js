@@ -52,14 +52,6 @@ exports.play = async (req, res) => {
       });
     }
     
-    // Check if betting is currently allowed (not in the 2-second lock period)
-    if (!gameRound.isBettingAllowed()) {
-      return res.status(400).json({
-        success: false,
-        msg: 'Betting is locked for this round. Please wait for the next round.'
-      });
-    }
-    
     // Get the deterministic result for this round (same for all users)
     // Using the round ID we captured at the beginning
     const coinFlip = gameRound.getRoundResult(currentRoundId);

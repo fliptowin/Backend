@@ -2,7 +2,7 @@ const crypto = require('crypto');
 const config = require('../config/config');
 
 const ROUND_DURATION_MS = 10000; // 10 seconds per round
-const BETTING_LOCK_MS = 2000;    // Last 2 seconds are locked for betting
+const BETTING_LOCK_MS = 0;       // No betting lock period
 
 /**
  * Calculate the current round ID based on the server's time
@@ -25,14 +25,11 @@ function getNextRoundStartTime() {
 
 /**
  * Checks if betting is currently allowed based on the server time
- * Returns false during the 2-second lock-in period before the round ends
+ * With betting lock removed, this always returns true
  * @returns {boolean} Whether betting is currently allowed
  */
 function isBettingAllowed() {
-  const now = Date.now();
-  const timeIntoRound = now % ROUND_DURATION_MS;
-  const bettingWindowEnd = ROUND_DURATION_MS - BETTING_LOCK_MS;
-  return timeIntoRound < bettingWindowEnd;
+  return true; // Betting is always allowed now
 }
 
 /**
