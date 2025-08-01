@@ -1,13 +1,18 @@
 const User = require('../models/User');
-const gameState = require('../utils/gameState');
+const gameRound = require('../utils/gameRound');
 const logger = require('../config/logger');
 const config = require('../config/config');
+const crypto = require('crypto');
 
 exports.play = async (req, res) => {
   const startTime = Date.now();
   const { userId, face, amount } = req.body;
 
   try {
+    // Capture the round ID at the very beginning of request processing
+    // This ensures we use the same round ID throughout the entire function
+    const currentRoundId = gameRound.getCurrentRoundId();
+    
     // Enhanced input validation
     if (!userId || !face || amount === undefined) {
       return res.status(400).json({ 
@@ -45,31 +50,22 @@ exports.play = async (req, res) => {
         success: false,
         msg: 'Insufficient balance' 
       });
-    }    // Validate and fix any data corruption before processing
-    gameState.validateAndFixUser(userId);
-
-    // Get the predetermined game result (enforces our 5W/7L ratio)
-    const gameResult = gameState.getRandomResult(userId);
-    
-    // CRITICAL: The pattern determines the outcome, not the coin flip
-    // We manipulate the coin flip to match the desired outcome for realism
-    const userWon = (gameResult === 'win');
-    
-    let coinFlip;
-    if (userWon) {
-      // If user should win, make sure coin matches their choice
-      coinFlip = face;
-    } else {
-      // If user should lose, make coin opposite of their choice
-      coinFlip = (face === 'head') ? 'tail' : 'head';
-      
-      // Add some randomness - occasionally let them guess right but still lose
-      // This adds realism without breaking the ratio (very small chance)
-      const entropy = Math.random();
-      if (entropy < 0.05) { // 5% chance
-        coinFlip = face; // They guessed right but still lose (house always wins sometimes)
-      }
     }
+    
+    // Check if betting is currently allowed (not in the 2-second lock period)
+    if (!gameRound.isBettingAllowed()) {
+      return res.status(400).json({
+        success: false,
+        msg: 'Betting is locked for this round. Please wait for the next round.'
+      });
+    }
+    
+    // Get the deterministic result for this round (same for all users)
+    // Using the round ID we captured at the beginning
+    const coinFlip = gameRound.getRoundResult(currentRoundId);
+    
+    // Determine if user won based on their face selection
+    const userWon = (face === coinFlip);
       // Determine if user's face choice matches final coin flip
     const faceMatch = (coinFlip === face);
 
@@ -99,24 +95,17 @@ exports.play = async (req, res) => {
       });
     }
 
-    // Update game history with actual result (should always match pattern now)
+    // No need to track game history anymore as requested
     const actualGameResult = userWon ? 'win' : 'lose';
-    
-    if (!user.gameHistory) {
-      user.gameHistory = [];
-    }
-    
-    if (user.gameHistory.length >= 12) {
-      user.gameHistory.shift();
-    }
-    user.gameHistory.push(actualGameResult);    // Add result to user-specific game state for pattern tracking
-    gameState.addResult(userId, actualGameResult);
     
     // Save user data
     await user.save();    // Log game event for monitoring
     if (logger) {
       logger.info('Game played', {
         userId,
+        roundId: currentRoundId,
+        userChoice: face,
+        roundOutcome: coinFlip,
         result: actualGameResult,
         amount,
         balanceChangeType: userWon ? 'currentBalance' : 'walletBalance',
@@ -127,7 +116,10 @@ exports.play = async (req, res) => {
       });
     }
 
-    // Return clean response
+    // Get next round information for client synchronization
+    const nextRoundStartTime = gameRound.getNextRoundStartTime();
+
+    // Return clean response with next game timing information
     res.json({
       success: true,
       result: userWon ? 'win' : 'lose',
@@ -135,7 +127,14 @@ exports.play = async (req, res) => {
       faceMatch,
       currentBalance: user.currentBalance,
       walletBalance: user.walletBalance,
-      totalBalance: user.currentBalance + user.walletBalance
+      totalBalance: user.currentBalance + user.walletBalance,
+      nextGame: {
+        currentRoundId,
+        nextRoundStartTime,
+        roundDuration: gameRound.ROUND_DURATION_MS,
+        lockTime: gameRound.BETTING_LOCK_MS,
+        serverTime: Date.now()
+      }
     });
 
   } catch (error) {
