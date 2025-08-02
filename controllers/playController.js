@@ -108,8 +108,11 @@ exports.play = async (req, res) => {
       });
     }
 
-    // Get next round information for client synchronization
-    const nextRoundStartTime = gameRound.getNextRoundStartTime();
+    // Calculate next round information for client synchronization
+    // Using current timestamp to ensure accuracy
+    const serverTime = Date.now();
+    const nextRoundId = Math.floor(serverTime / gameRound.ROUND_DURATION_MS) + 1;
+    const nextRoundStartTime = nextRoundId * gameRound.ROUND_DURATION_MS;
 
     // Return clean response with next game timing information
     res.json({
@@ -121,11 +124,11 @@ exports.play = async (req, res) => {
       walletBalance: user.walletBalance,
       totalBalance: user.currentBalance + user.walletBalance,
       nextGame: {
-        currentRoundId,
+        currentRoundId: nextRoundId - 1, // Current round ID
         nextRoundStartTime,
         roundDuration: gameRound.ROUND_DURATION_MS,
         lockTime: gameRound.BETTING_LOCK_MS,
-        serverTime: Date.now()
+        serverTime // Use the exact same timestamp for consistency
       }
     });
 

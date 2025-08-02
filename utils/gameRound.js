@@ -1,7 +1,7 @@
 const crypto = require('crypto');
 const config = require('../config/config');
 
-const ROUND_DURATION_MS = 10000; // 10 seconds per round
+const ROUND_DURATION_MS = 17000; // 10 seconds per round
 const BETTING_LOCK_MS = 0;       // No betting lock period
 
 /**
@@ -10,7 +10,9 @@ const BETTING_LOCK_MS = 0;       // No betting lock period
  * @returns {number} The current round ID
  */
 function getCurrentRoundId() {
-  return Math.floor(Date.now() / ROUND_DURATION_MS);
+  // Ensure we get the latest timestamp for accurate round ID
+  const now = Date.now();
+  return Math.floor(now / ROUND_DURATION_MS);
 }
 
 /**
@@ -19,8 +21,16 @@ function getCurrentRoundId() {
  * @returns {number} UNIX timestamp in milliseconds when the next round starts
  */
 function getNextRoundStartTime() {
-  const currentRoundId = getCurrentRoundId();
-  return (currentRoundId + 1) * ROUND_DURATION_MS;
+  // Ensure we get the latest timestamp
+  const now = Date.now();
+  
+  // Calculate the current round's end time (which is the next round's start time)
+  // We use the current timestamp and find the next round boundary
+  const currentRoundId = Math.floor(now / ROUND_DURATION_MS);
+  const nextRoundId = currentRoundId + 1;
+  const nextRoundStartTime = nextRoundId * ROUND_DURATION_MS;
+  
+  return nextRoundStartTime;
 }
 
 /**

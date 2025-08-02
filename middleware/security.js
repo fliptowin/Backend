@@ -18,8 +18,10 @@ const createRateLimiter = (windowMs, max, message) => {
       res.status(429).json({ msg: message });
     },
     skip: (req) => {
-      // Skip rate limiting for health checks
-      return req.originalUrl === '/health' || req.originalUrl === '/api/health';
+      // Skip rate limiting for health checks and game round status
+      return req.originalUrl === '/health' || 
+             req.originalUrl === '/api/health' || 
+             req.originalUrl === '/api/game/round-status';
     }
   });
 };
